@@ -1,0 +1,106 @@
+import React, { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [itemPrice, setItemPrice] = useState(1000);
+  const [buyerPremium, setBuyerPremium] = useState(15);
+  const [selectedCategory, setSelectedCategory] = useState("Metals");
+
+  const platforms = [
+    { name: "Vendidit", commission: 0, fixedBuyerPremium: 10, color: "#d0f0ff" },
+    { name: "HiBid", commission: 12 },
+    { name: "Proxibid", commission: 15 },
+    { name: "LiveAuctioneers", commission: 14 },
+    { name: "Invaluable", commission: 18 },
+    { name: "Bidsquare", commission: 16 },
+    { name: "eBay", commission: 10 },
+    { name: "Whatnot", commission: 8 },
+    { name: "Bidspirit", commission: 15 },
+  ];
+
+  const categories = [
+    "Metals", "Autos", "Tools", "Real Estate", "Jewelry",
+    "Antiques", "Collectibles", "Art", "Furniture",
+    "Electronics", "Equipment", "Surplus"
+  ];
+
+  const handleCalculate = () => {
+    return platforms.map((platform) => {
+      const premiumRate = platform.fixedBuyerPremium ?? buyerPremium;
+      const commissionAmount = (itemPrice * platform.commission) / 100;
+      const buyerPremiumAmount = (itemPrice * premiumRate) / 100;
+      const creditCardFee = itemPrice * 0.03;
+      const sellerEarnings = itemPrice - commissionAmount;
+      const buyerPays = itemPrice + commissionAmount + buyerPremiumAmount + creditCardFee;
+
+      return {
+        name: platform.name,
+        commissionAmount: commissionAmount.toFixed(2),
+        buyerPremiumAmount: buyerPremiumAmount.toFixed(2),
+        creditCardFee: creditCardFee.toFixed(2),
+        sellerEarnings: sellerEarnings.toFixed(2),
+        buyerPays: buyerPays.toFixed(2),
+        color: platform.color || "#f9f9f9",
+      };
+    });
+  };
+
+  const results = handleCalculate();
+
+  return (
+    <div className="container">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1>Vendidit Calculator</h1>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Vendidit_logo.svg/1280px-Vendidit_logo.svg.png"
+          alt="Vendidit Logo"
+          style={{ height: "50px" }}
+        />
+      </div>
+
+      <div className="input-row">
+        <label>Item Price ($)</label>
+        <input type="number" value={itemPrice} onChange={(e) => setItemPrice(parseFloat(e.target.value))} />
+      </div>
+
+      <div className="input-row">
+        <label>Buyer’s Premium (%)</label>
+        <input type="number" value={buyerPremium} onChange={(e) => setBuyerPremium(parseFloat(e.target.value))} />
+      </div>
+
+      <div className="input-row">
+        <label>Select Category</label>
+        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="grid">
+        {results.map((platform) => (
+          <div
+            className="platform-box"
+            key={platform.name}
+            style={{ backgroundColor: platform.color }}
+          >
+            <h3>{platform.name}</h3>
+            <p>Item Selling Price: ${itemPrice}</p>
+            <p>Commission Charged: ${platform.commissionAmount}</p>
+            <p><strong>Sellers Earn: ${platform.sellerEarnings}</strong></p>
+            <br />
+            <p>Buyer’s Premium: ${platform.buyerPremiumAmount}</p>
+            <p>Buyer Pays: ${platform.buyerPays}</p>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ marginTop: "20px", fontSize: "12px", color: "#555" }}>
+        *Buyer Pays includes a 3% credit card processing fee for demonstration purposes.
+      </p>
+    </div>
+  );
+}
+
+export default App;
+

@@ -5,9 +5,6 @@ function App() {
   const [category, setCategory] = useState('Autos'); // Example category
   const price = 1000; // Example price
 
-  // 3% credit card processing fee
-  const creditCardFee = price * 0.03;
-
   // Get the commission for each platform based on the category
   const getCommission = (platform, category) => {
     if (platform === 'Vendidit') {

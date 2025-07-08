@@ -1,15 +1,13 @@
 {
   "files": {
-    "main.css": "/my-react-app/static/css/main.86c5e063.css",
-    "main.js": "/my-react-app/static/js/main.6f0ba21a.js",
-    "static/js/488.fa1232e7.chunk.js": "/my-react-app/static/js/488.fa1232e7.chunk.js",
-    "index.html": "/my-react-app/index.html",
-    "main.86c5e063.css.map": "/my-react-app/static/css/main.86c5e063.css.map",
-    "main.6f0ba21a.js.map": "/my-react-app/static/js/main.6f0ba21a.js.map",
-    "488.fa1232e7.chunk.js.map": "/my-react-app/static/js/488.fa1232e7.chunk.js.map"
+    "main.css": "/Vendidit-Calculator-new/static/css/main.3f742262.css",
+    "main.js": "/Vendidit-Calculator-new/static/js/main.f5d1ded5.js",
+    "index.html": "/Vendidit-Calculator-new/index.html",
+    "main.3f742262.css.map": "/Vendidit-Calculator-new/static/css/main.3f742262.css.map",
+    "main.f5d1ded5.js.map": "/Vendidit-Calculator-new/static/js/main.f5d1ded5.js.map"
   },
   "entrypoints": [
-    "static/css/main.86c5e063.css",
-    "static/js/main.6f0ba21a.js"
+    "static/css/main.3f742262.css",
+    "static/js/main.f5d1ded5.js"
   ]
 }

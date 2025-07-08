@@ -1,139 +1,113 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
 
 function App() {
-  const [category, setCategory] = useState('Autos'); // Example category
-  const price = 1000; // Example price
+  // State for input, result, selected platform, and selected category
+  const [category, setCategory] = useState("Gold and Silver Coins");  // Tracks the selected category
+  const price = 1000;  // Item price
 
-  // Get the commission for each platform based on the category
+  // Commission data for each platform based on category
   const getCommission = (platform, category) => {
-    if (platform === 'Vendidit') {
-      return 0.10; // Vendidit always charges 10%
-    }
-    if (platform === 'HiBid' && category === 'Gold and Silver Coins') {
-      return 0.12; // HiBid Gold and Silver Coins commission is 12%
-    }
-    if (platform === 'Proxibid' && category === 'Gold and Silver Coins') {
-      return 0.15; // Proxibid Gold and Silver Coins commission is 15%
-    }
+    if (platform === "Vendidit") return 0.10; // Vendidit always charges 10%
+    if (platform === "HiBid") return category === "Gold and Silver Coins" ? 0.12 : 0.10;
+    if (platform === "Proxibid") return category === "Gold and Silver Coins" ? 0.15 : 0.10;
+    if (platform === "LiveAuctioneers") return 0.15;
+    if (platform === "Invaluable") return 0.18;
+    if (platform === "Bidsquare") return 0.16;
+    if (platform === "eBay") return 0.10;
+    if (platform === "Whatnot") return 0.08;
+    if (platform === "Bidspirit") return 0.15;
     return 0.10; // Default commission for other platforms
   };
 
-  // Calculate the seller's earnings after commission
-  const calculateSellerEarnings = (price, platform, category) => {
+  // Calculate commission, seller earnings, and buyer's premium
+  const calculatePlatformInfo = (price, platform, category) => {
     const commissionRate = getCommission(platform, category);
-    const commissionAmount = price * commissionRate;
-    const sellerEarns = price - commissionAmount;
-    return sellerEarns;
+    const commissionCharged = price * commissionRate;
+    const sellersEarn = price - commissionCharged;
+    const buyersPremium = price * 0.10; // Example 10% buyer's premium
+    const creditCardFee = price * 0.03; // 3% credit card fee
+    const buyerPays = price + buyersPremium + creditCardFee; // Buyer pays includes 3% credit card fee
+    return {
+      commissionCharged,
+      sellersEarn,
+      buyersPremium,
+      buyerPays,
+    };
   };
 
-  // Check if a platform supports the selected category
+  // Platform availability check based on category
   const isCategoryAvailable = (platform, category) => {
     const supportedCategories = {
-      HiBid: ['Gold and Silver Coins', 'Art'],
-      Proxibid: ['Gold and Silver Coins', 'Furniture'],
-      Vendidit: ['Gold and Silver Coins', 'Silver Coins', 'Metals', 'Jewelry', 'Antiques', 'Collectibles', 'Art', 'Furniture', 'Electronics', 'Equipment', 'Surplus'],
-      LiveAuctioneers: ['Gold and Silver Coins', 'Art'],
-      Invaluable: ['Gold and Silver Coins', 'Furniture'],
-      BidSquare: ['Gold and Silver Coins', 'Jewelry'],
-      BidSpirit: ['Gold and Silver Coins', 'Surplus'],
-      eBay: ['Gold and Silver Coins', 'Jewelry', 'Electronics'],
-      Whatnot: ['Collectibles', 'Electronics'],
+      HiBid: ["Gold and Silver Coins", "Art"],
+      Proxibid: ["Gold and Silver Coins", "Furniture"],
+      Vendidit: ["Gold and Silver Coins", "Silver Coins", "Metals", "Jewelry", "Antiques", "Collectibles", "Art", "Furniture", "Electronics", "Equipment", "Surplus"],
+      LiveAuctioneers: ["Gold and Silver Coins", "Art"],
+      Invaluable: ["Gold and Silver Coins", "Furniture"],
+      BidSquare: ["Gold and Silver Coins", "Jewelry"],
+      BidSpirit: ["Gold and Silver Coins", "Surplus"],
+      eBay: ["Gold and Silver Coins", "Jewelry", "Electronics"],
+      Whatnot: ["Collectibles", "Electronics"],
     };
     return supportedCategories[platform]?.includes(category);
   };
 
   return (
-    <div className="container">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Vendidit Calculator</h1>
-      </div>
-      <div>
-        <h2>Choose Category:</h2>
-        <select onChange={(e) => setCategory(e.target.value)} value={category}>
-          <option value="Autos">Autos</option>
-          <option value="Gold and Silver Coins">Gold and Silver Coins</option>
-          <option value="Real Estate">Real Estate</option>
-          <option value="Jewelry">Jewelry</option>
-          <option value="Antiques">Antiques</option>
-          <option value="Collectibles">Collectibles</option>
-          <option value="Art">Art</option>
-          <option value="Furniture">Furniture</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Equipment">Equipment</option>
-          <option value="Surplus">Surplus</option>
-        </select>
-      </div>
-      <div>
-        <h2>Price: ${price}</h2>
-      </div>
-      <div>
-        <h3>Seller Earns:</h3>
-        <div className="platform-container">
-          {/* Column 1 */}
-          <div className="column-1">
-            <div className="auction-platform Vendidit">
-              <h4>Vendidit</h4>
-              <p>Seller Earns: ${calculateSellerEarnings(price, 'Vendidit', category)}</p>
-            </div>
-            {isCategoryAvailable('Proxibid', category) && (
-              <div className="auction-platform">
-                <h4>Proxibid</h4>
-                <p>Seller Earns: ${calculateSellerEarnings(price, 'Proxibid', category)}</p>
-              </div>
-            )}
-            {!isCategoryAvailable('Proxibid', category) && <div className="auction-platform"><h4>Proxibid</h4><p>Not Available</p></div>}
-            {isCategoryAvailable('Invaluable', category) && (
-              <div className="auction-platform">
-                <h4>Invaluable</h4>
-                <p>Seller Earns: ${calculateSellerEarnings(price, 'Invaluable', category)}</p>
-              </div>
-            )}
-            {!isCategoryAvailable('Invaluable', category) && <div className="auction-platform"><h4>Invaluable</h4><p>Not Available</p></div>}
-            {isCategoryAvailable('eBay', category) && (
-              <div className="auction-platform">
-                <h4>eBay</h4>
-                <p>Seller Earns: ${calculateSellerEarnings(price, 'eBay', category)}</p>
-              </div>
-            )}
-            {!isCategoryAvailable('eBay', category) && <div className="auction-platform"><h4>eBay</h4><p>Not Available</p></div>}
-          </div>
+    <div style={{ fontFamily: "Arial", padding: "20px", maxWidth: "600px", margin: "auto" }}>
+      <h1>Vendidit Calculator</h1>
 
-          {/* Column 2 */}
-          <div className="column-2">
-            {isCategoryAvailable('HiBid', category) && (
-              <div className="auction-platform">
-                <h4>HiBid</h4>
-                <p>Seller Earns: ${calculateSellerEarnings(price, 'HiBid', category)}</p>
-              </div>
+      {/* Category Toggle */}
+      <div>
+        {["Gold and Silver Coins", "Autos", "Real Estate", "Jewelry", "Antiques", "Collectibles", "Art", "Furniture", "Electronics", "Equipment", "Surplus"].map((category) => (
+          <button key={category} onClick={() => setCategory(category)} style={{ margin: "5px" }}>
+            {category}
+          </button>
+        ))}
+      </div>
+
+      {/* Display selected category */}
+      <div>
+        <p>Selected Category: {category}</p>
+      </div>
+
+      {/* Platform Toggle */}
+      <div>
+        {["Vendidit", "HiBid", "Proxibid", "LiveAuctioneers", "Invaluable", "Bidsquare", "eBay", "Whatnot", "Bidspirit"].map((platform) => (
+          <button
+            key={platform}
+            onClick={() => setCategory(platform)}
+            style={{
+              backgroundColor: category === platform ? "lightblue" : "white",
+              padding: "5px 10px",
+              margin: "5px",
+            }}
+          >
+            {platform}
+          </button>
+        ))}
+      </div>
+
+      {/* Platform Data */}
+      <div>
+        {["Vendidit", "HiBid", "Proxibid", "LiveAuctioneers", "Invaluable", "Bidsquare", "eBay", "Whatnot", "Bidspirit"].map((platform) => (
+          <div key={platform} className="auction-platform">
+            {isCategoryAvailable(platform, category) ? (
+              <>
+                <h4>{platform}</h4>
+                <p>Item Selling Price: ${price}</p>
+                <p>Commission Charged: ${calculatePlatformInfo(price, platform, category).commissionCharged.toFixed(2)}</p>
+                <p>Sellers Earn: ${calculatePlatformInfo(price, platform, category).sellersEarn.toFixed(2)}</p>
+                <p>Buyer’s Premium: ${calculatePlatformInfo(price, platform, category).buyersPremium.toFixed(2)}</p>
+                <p>Buyer Pays: ${calculatePlatformInfo(price, platform, category).buyerPays.toFixed(2)}</p>
+              </>
+            ) : (
+              <p>{platform} is not available for the selected category.</p>
             )}
-            {!isCategoryAvailable('HiBid', category) && <div className="auction-platform"><h4>HiBid</h4><p>Not Available</p></div>}
-            {isCategoryAvailable('LiveAuctioneers', category) && (
-              <div className="auction-platform">
-                <h4>Live Auctioneers</h4>
-                <p>Seller Earns: ${calculateSellerEarnings(price, 'LiveAuctioneers', category)}</p>
-              </div>
-            )}
-            {!isCategoryAvailable('LiveAuctioneers', category) && <div className="auction-platform"><h4>Live Auctioneers</h4><p>Not Available</p></div>}
-            {isCategoryAvailable('Bidsquare', category) && (
-              <div className="auction-platform">
-                <h4>Bidsquare</h4>
-                <p>Seller Earns: ${calculateSellerEarnings(price, 'Bidsquare', category)}</p>
-              </div>
-            )}
-            {!isCategoryAvailable('Bidsquare', category) && <div className="auction-platform"><h4>Bidsquare</h4><p>Not Available</p></div>}
-            {isCategoryAvailable('Whatnot', category) && (
-              <div className="auction-platform">
-                <h4>Whatnot</h4>
-                <p>Seller Earns: ${calculateSellerEarnings(price, 'Whatnot', category)}</p>
-              </div>
-            )}
-            {!isCategoryAvailable('Whatnot', category) && <div className="auction-platform"><h4>Whatnot</h4><p>Not Available</p></div>}
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
 }
 
 export default App;
+

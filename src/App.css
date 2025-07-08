@@ -1,5 +1,3 @@
-/* App.css */
-
 /* Add custom styling to platform boxes */
 .auction-platform {
   border: 1px solid #ccc; /* Light gray border */
@@ -10,13 +8,11 @@
   flex: 1; /* Allow the boxes to adjust based on space */
 }
 
-/* Auction platform box title styling */
 .auction-platform h4 {
   margin: 0;
   padding: 5px;
 }
 
-/* Auction platform box paragraph styling */
 .auction-platform p {
   margin: 5px 0;
 }
@@ -35,20 +31,17 @@
   justify-content: space-between; /* Ensures the boxes are evenly spaced */
 }
 
-/* Column styling */
-.column-1,
-.column-2 {
-  width: 48%; /* Adjust width to fit two columns */
-  display: flex;
-  flex-direction: column;
+/* Make 5 boxes in the first row */
+.auction-platform:nth-child(-n+5) {
+  width: calc(20% - 20px); /* 5 boxes in the first row */
 }
 
-/* Make sure each platform box is equally spaced */
-.auction-platform {
-  margin-bottom: 20px;
+/* Make 4 boxes in the second row */
+.auction-platform:nth-child(n+6) {
+  width: calc(20% - 20px); /* 4 boxes in the second row */
 }
 
-/* Dropdown and input styling */
+/* Additional Styling for the Select Dropdown and Input Fields */
 select, input {
   padding: 5px;
   margin-top: 10px;

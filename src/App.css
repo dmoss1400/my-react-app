@@ -1,0 +1,50 @@
+/* Add custom styling to platform boxes */
+.auction-platform {
+  border: 1px solid #ccc; /* Light gray border */
+  padding: 10px;
+  margin: 10px;
+  text-align: center; /* Center the content */
+  font-weight: bold; /* Make the text inside the box bold */
+  flex: 1; /* Allow the boxes to adjust based on space */
+}
+
+.auction-platform h4 {
+  margin: 0;
+  padding: 5px;
+}
+
+.auction-platform p {
+  margin: 5px 0;
+}
+
+/* Vendidit Box Styling */
+.auction-platform.Vendidit {
+  background-color: #87CEEB; /* Sky Blue */
+  color: white; /* White text for better contrast */
+}
+
+/* Grid Layout for platform boxes */
+.platform-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between; /* Ensures the boxes are evenly spaced */
+}
+
+/* Make 5 boxes in the first row */
+.auction-platform:nth-child(-n+5) {
+  width: calc(20% - 20px); /* 5 boxes in the first row */
+}
+
+/* Make 4 boxes in the second row */
+.auction-platform:nth-child(n+6) {
+  width: calc(20% - 20px); /* 4 boxes in the second row */
+}
+
+/* Additional Styling for the Select Dropdown and Input Fields */
+select, input {
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
